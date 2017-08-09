@@ -151,9 +151,8 @@ class BackgroundExt {
         Activity  app = getApp();
         Intent intent = getLaunchIntent();
 
-        //intent.addFlags(
-        //        Intent.FLAG_ACTIVITY_REORDER_TO_FRONT |
-        //        Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(
+                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         app.startActivity(intent);
     }
@@ -312,15 +311,10 @@ class BackgroundExt {
      * The launch intent for the main activity.
      */
     private Intent getLaunchIntent() {
-        Activity  app = getApp();
-        Intent intent = new Intent(app.getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        return intent;
-        
-        //Context app    = getApp().getApplicationContext();
-        //String pkgName = app.getPackageName();
+        Context app    = getApp().getApplicationContext();
+        String pkgName = app.getPackageName();
 
-        //return app.getPackageManager().getLaunchIntentForPackage(pkgName);
+        return app.getPackageManager().getLaunchIntentForPackage(pkgName);
     }
 
     /**

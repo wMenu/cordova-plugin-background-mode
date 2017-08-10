@@ -17,6 +17,9 @@
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
     under the License.
+	
+	
+	 - Modified for use in MaxSoft - Max - 2017-08-10
  */
 
 package de.appplant.cordova.plugin.background;
@@ -31,6 +34,11 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.view.View;
 import android.view.Window;
+
+import com.wmenu.links.MainActivity;     // MAX MAX MAX
+import android.content.Context;
+
+ //import com.manifoldjs.hostedwebapp.HostedWebApp;     //  MaxSoft - Max - 2017-08-10
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -145,14 +153,18 @@ class BackgroundExt {
     }
 
     /**
-     * Move app to foreground.
+     * Move app to foreground.  - Modified by Max - 2017-08-09
      */
     private void moveToForeground() {
-        Activity  app = getApp();
-        Intent intent = getLaunchIntent();
+       Activity  app = getApp();
+       Intent intent = getLaunchIntent();
 
-        intent.addFlags(
-                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+       // intent.addFlags(
+               // Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK
+       //         Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                        //|Intent.FLAG_ACTIVITY_SINGLE_TOP
+      // );
 
         app.startActivity(intent);
     }
@@ -307,14 +319,28 @@ class BackgroundExt {
         return cordova.get().getActivity();
     }
 
-    /**
-     * The launch intent for the main activity.
+        /**
+     * The launch intent for the main activity. - Modified by Max - 2017-08-10
      */
     private Intent getLaunchIntent() {
-        Context app    = getApp().getApplicationContext();
-        String pkgName = app.getPackageName();
+        // NEW:
+        Activity  app = getApp();
 
-        return app.getPackageManager().getLaunchIntentForPackage(pkgName);
+       Intent intent = new Intent(app.getApplicationContext(), MainActivity.class);  // MAX MAX MAX
+
+        // Intent intent = new Intent(app.getApplicationContext(), HostedWebApp.appMainActivity.getClass()); // - Modified by Max - 2017-08-10
+        // Intent intent = new Intent(app.getApplicationContext(), AbstractFragmentActivity.instance.getClass()); // - Modified by Max - 2017-08-10
+        intent.addFlags(
+                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                //|Intent.FLAG_ACTIVITY_SINGLE_TOP
+        );
+        return intent;
+
+      //  Original:
+      //  Context app    = getApp().getApplicationContext();
+      //  String pkgName = app.getPackageName();
+
+      //  return app.getPackageManager().getLaunchIntentForPackage(pkgName);
     }
 
     /**

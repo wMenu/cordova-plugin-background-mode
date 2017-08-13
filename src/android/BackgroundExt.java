@@ -35,7 +35,7 @@ import android.os.PowerManager;
 import android.view.View;
 import android.view.Window;
 
-import com.manifoldjs.hostedwebapp.HostedWebApp;     //  MaxSoft - Max - 2017-08-10
+
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -317,8 +317,12 @@ class BackgroundExt {
         Activity  app = getApp();
 
 	// Intent intent = new Intent(app.getApplicationContext(), MainActivity.class);  // MAX MAX MAX
-      	Intent intent = new Intent(app.getApplicationContext(), HostedWebApp.appMainActivity.getClass()); // - Modified by Max - 2017-08-10
+      //	Intent intent = new Intent(app.getApplicationContext(), HostedWebApp.appMainActivity.getClass()); // - Modified by Max - 2017-08-10
         // Intent intent = new Intent(app.getApplicationContext(), AbstractFragmentActivity.instance.getClass()); // - Modified by Max - 2017-08-10
+
+        Intent intent = new Intent(app.getApplicationContext(), cordova.get().getActivity().getClass()); // - Modified by Max - 2017-08-12
+
+
         intent.addFlags(
                 Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                 //|Intent.FLAG_ACTIVITY_SINGLE_TOP

@@ -17,9 +17,8 @@
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
     under the License.
-	
-	
-	 - Modified for use in MaxSoft - Max - 2017-08-10
+
+     - Modified for use in MaxSoft - Max - 2017-08-14
  */
 
 package de.appplant.cordova.plugin.background;
@@ -34,8 +33,6 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.view.View;
 import android.view.Window;
-
-
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -150,11 +147,15 @@ class BackgroundExt {
     }
 
     /**
-     * Move app to foreground.  - Modified by Max - 2017-08-09
+     * Move app to foreground.
      */
     private void moveToForeground() {
-       	Activity  app = getApp();
-       	Intent intent = getLaunchIntent();
+        Activity  app = getApp();
+        Intent intent = getLaunchIntent();
+
+//        intent.addFlags(
+//                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT |
+//                        Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         app.startActivity(intent);
     }
@@ -265,7 +266,7 @@ class BackgroundExt {
         }
 
         int level = PowerManager.SCREEN_DIM_WAKE_LOCK |
-                    PowerManager.ACQUIRE_CAUSES_WAKEUP;
+                PowerManager.ACQUIRE_CAUSES_WAKEUP;
 
         wakeLock = pm.newWakeLock(level, "BackgroundModeExt");
         wakeLock.setReferenceCounted(false);
@@ -292,9 +293,9 @@ class BackgroundExt {
             public void run() {
                 window.addFlags(
                         FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
-                        FLAG_SHOW_WHEN_LOCKED |
-                        FLAG_TURN_SCREEN_ON |
-                        FLAG_DISMISS_KEYGUARD
+                                FLAG_SHOW_WHEN_LOCKED |
+                                FLAG_TURN_SCREEN_ON |
+                                FLAG_DISMISS_KEYGUARD
                 );
             }
         });
@@ -309,31 +310,20 @@ class BackgroundExt {
         return cordova.get().getActivity();
     }
 
-        /**
-     * The launch intent for the main activity. - Modified by Max - 2017-08-10
+    /**
+     * The launch intent for the main activity.
      */
     private Intent getLaunchIntent() {
-        // NEW:
-        Activity  app = getApp();
-
-	// Intent intent = new Intent(app.getApplicationContext(), MainActivity.class);  // MAX MAX MAX
-      //	Intent intent = new Intent(app.getApplicationContext(), HostedWebApp.appMainActivity.getClass()); // - Modified by Max - 2017-08-10
-        // Intent intent = new Intent(app.getApplicationContext(), AbstractFragmentActivity.instance.getClass()); // - Modified by Max - 2017-08-10
-
-        Intent intent = new Intent(app.getApplicationContext(), cordova.get().getActivity().getClass()); // - Modified by Max - 2017-08-12
-
-
+        Intent intent = new Intent(getApp().getApplicationContext(), cordova.get().getActivity().getClass()); // - Modified by Max - 2017-08-14
         intent.addFlags(
                 Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-                //|Intent.FLAG_ACTIVITY_SINGLE_TOP
         );
         return intent;
 
-      //  Original:
-      //  Context app    = getApp().getApplicationContext();
-      //  String pkgName = app.getPackageName();
-
-      //  return app.getPackageManager().getLaunchIntentForPackage(pkgName);
+//        Context app    = getApp().getApplicationContext();
+//        String pkgName = app.getPackageName();
+//
+//        return app.getPackageManager().getLaunchIntentForPackage(pkgName);
     }
 
     /**
